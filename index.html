@@ -1,0 +1,19 @@
+<html>
+  <head>
+    <title>CSV to Firebase</title>
+    <script src="https://cdn.firebase.com/js/client/2.2.7/firebase.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="script.js" charset="utf-8"></script>
+  </head>
+  <body>
+    Firebase URL:<input type="text" id="firebaseURL" style="width: 40em;" value="https://opencamp.firebaseio.com/">
+    <br><br>
+    Model:<input type="text" id="model" value="myModel">
+    <br><br>
+    CSV Text (WITH HEADERS):
+    <br><br>
+    <textarea id="csv" rows="30" cols="200"></textarea>
+    <br><br>
+    <button id="import">Import</button>
+  </body>
+</html>
