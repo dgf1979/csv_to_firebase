@@ -18,11 +18,11 @@ function generateObjectToSave() {
   var csvText = $("#csv").val();
   var lineArray = csvText.split("\n");
   var headerCells = lineArray[0].split(",");
-  console.log("Headers: " + lineArray[0]);
+  // console.log("Headers: " + lineArray[0]);
 
   for (var i = 1; i < lineArray.length; i++) {
     var cells = lineArray[i].split(",");
-    console.log("line: " + i);
+    // console.log("line: " + i);
     var innerObj = {};
     for (var j = 0; j < cells.length; j++) {
       innerObj[headerCells[j]] = cells[j];
@@ -37,18 +37,26 @@ function appendToFirebase(objectArray) {
   var uri = $("#firebaseURL").val();
   var model = $("#model").val();
   var ref = new Firebase(uri + "/" + model);
-  var objectsPushed = 0;
+  var running = 0;
+  var failed = 0;
+  var saved = 0;
   for (var i = 0; i < objectArray.length; i++) {
+    running++;
     ref.push(objectArray[i], function(error) {
       if (error) {
         console.log("Data could not be saved for item at index: " + i + " - " + error);
+        failed++;
       } else {
-        console.log("push object at index: " + i + " to firebase success");
-        objectsPushed += 1;
+        saved++;
+      }
+      running--;
+      console.log("running tasks: " + running);
+      if (running === 0) {
+        alert("Done. Total Records: " + objectArray.length + "; Saved: " + saved + "; Failed: " + failed);
       }
     });
+
   }
-  alert("Successfully appended: " + objectsPushed + " items out of " + objectArray.length);
 }
 
 function saveToFirebase(objectArray) {
@@ -64,28 +72,5 @@ function saveToFirebase(objectArray) {
     } else {
       alert("Data saved successfully.");
     }
-  });
-}
-
-function loadFromFirebase() {
-  "use strict";
-  var uri = $("#firebaseURL").val();
-  var model = $("#model").val();
-  var ref = new Firebase(uri + "/" + model);
-
-  ref.on("value", function(snapshot) {
-    var mostProperties = 0;
-    var keyWithMostProperties;
-    var data = snapshot.val();
-    for (var index in data) {
-      var obj = data[index];
-      if (Object.keys(obj).length > mostProperties) {
-        keyWithMostProperties = Object.keys(obj);
-      }
-    }
-    console.log(keyWithMostProperties);
-    debugger;
-  }, function (errorObject) {
-    alert("The read failed: " + errorObject.code);
   });
 }
