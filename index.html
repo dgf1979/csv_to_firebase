@@ -8,12 +8,14 @@
   <body>
     Firebase URL:<input type="text" id="firebaseURL" style="width: 40em;" value="https://opencamp.firebaseio.com/">
     <br><br>
-    Model:<input type="text" id="model" value="myModel">
+    Model:<input type="text" id="model" value="campsites">
     <br><br>
     CSV Text (WITH HEADERS):
     <br><br>
     <textarea id="csv" rows="30" cols="200"></textarea>
     <br><br>
-    <button id="import">Import</button>
+    <button id="import">Import CSV to Firebase</button>
+
+    <button id="append">Append CSV to Existing Model (Model must already exist and headers must match!)</button>
   </body>
 </html>
